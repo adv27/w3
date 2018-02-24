@@ -32,11 +32,15 @@ def foo():
         account = w3.eth.account.privateKeyToAccount(pk)
         address = account.address
         url = api.substitute(address=address)
-        r = requests.get(url)
-        json_data = r.json()
-        eth_value = json_data['result']
-        if eth_value is not '0':
-            print('{} {} {}'.format(pk, address, eth_value))
+        status = ''
+        eth_value = ''
+        while status is not '1':
+            r = requests.get(url)
+            json_data = r.json()
+            status = json_data['status']
+            eth_value = json_data['result']
+        # if eth_value is not '0':
+        print('{} {} {}'.format(pk, address, eth_value))
 
 
 def throw_away_function(_):
